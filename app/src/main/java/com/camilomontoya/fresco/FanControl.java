@@ -41,6 +41,8 @@ public class FanControl extends AppCompatActivity {
         off = (Button) findViewById(R.id.disconnect);
         intense = (SeekBar) findViewById(R.id.intense);
 
+        new ConnectBt().execute();
+
         off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,8 +115,10 @@ public class FanControl extends AppCompatActivity {
     }
 
     private void enviar(String t) throws IOException {
-        bSocket.getOutputStream().write(t.toString().getBytes());
-        bSocket.getOutputStream().flush();
+        if(bSocket != null) {
+            bSocket.getOutputStream().write(t.toString().getBytes());
+            bSocket.getOutputStream().flush();
+        }
     }
 
     private void turnOff() {
@@ -131,6 +135,10 @@ public class FanControl extends AppCompatActivity {
                 aviso("Conexion apagada");
             }
             finish();
+        }
+
+        if (bSocket == null){
+            aviso("El dispositivo esta desconectado");
         }
     }
 
