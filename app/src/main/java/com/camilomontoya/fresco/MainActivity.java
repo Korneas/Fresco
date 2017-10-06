@@ -15,6 +15,15 @@ import android.content.Intent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
+/**
+ *
+ * MainActivity es el archivo java de la actividad principal donde se desarrolla la app,
+ * en la cual se requiere la lista de dispositivos bluetooth para conectar y un
+ * boton que refresque las conexiones
+ *
+ * @autor   Camilo Jose Montoya
+ * @version 0.1
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button btnPaired;
@@ -23,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter myBlue = null;
     private Set pairedDevices;
 
+    /**
+     *
+     * Conecta al boton y la lista de dispositivos Bluetooth emparejados
+     * con el Java, para utilizar el click de el boton como busqueda de
+     * dispositivos emparejados y al seleccionar un elemento, ligar este
+     * como elemento para enviar informacion
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         btnPaired.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Metodo para buscar los dispositivos emparejados y agregarlos a un ArrayList
+     * que luego se adapta al ListView
+     */
     private void pairedDevicesList(){
         pairedDevices = myBlue.getBondedDevices();
         ArrayList list = new ArrayList();
@@ -69,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
         deviceList.setOnItemClickListener(myListClickListener);
     }
 
+    /**
+     * Se crea un objeto AdapterView.OnItemClickListener para ser utilizado
+     * en el setOnItemClickListener de cada elemento del ListView
+     */
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Metodo para acortar la generacion de Toast
+     *
+     * @param text String enviado para crear el mensaje
+     */
     private void aviso(String text){
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }

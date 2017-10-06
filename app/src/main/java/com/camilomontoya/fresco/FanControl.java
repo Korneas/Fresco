@@ -30,6 +30,13 @@ public class FanControl extends AppCompatActivity {
     private boolean isBConnected = false;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
+    /**
+     *
+     * Conecta los elementos de el layout con valores que se editan en java
+     * para ser enviados mediante los Streams de Bluetooth
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +82,11 @@ public class FanControl extends AppCompatActivity {
         });
     }
 
+    /**
+     * Clase que hereda de AsyncTask para conocer si realmente con el apareado
+     * se tiene una conexion actual, si no existe la aplicacion se devuelve a la anterior
+     * pantalla para elegir otro dispositivo
+     */
     private class ConnectBt extends AsyncTask<Void, Void, Void> {
 
         private boolean connected = true;
@@ -114,6 +126,13 @@ public class FanControl extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * Metodo para enviar Strings a Arduino mediante el Bluetooth
+     *
+     * @param t String que se envia para ser leido por el Arduino
+     * @throws IOException
+     */
     private void enviar(String t) throws IOException {
         if(bSocket != null) {
             bSocket.getOutputStream().write(t.toString().getBytes());
@@ -121,6 +140,9 @@ public class FanControl extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo privado para enviar el mensaje de apagar el sistema de ventilacion
+     */
     private void turnOff() {
         try {
             enviar("TF");
@@ -142,6 +164,11 @@ public class FanControl extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo para acortar la generacion de Toast
+     *
+     * @param text String enviado para crear el mensaje
+     */
     private void aviso(String text) {
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
